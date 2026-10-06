@@ -29,11 +29,18 @@ public class UrlService {
             throw new IllegalArgumentException("URL cannot be empty");
         }
 
-        if (!originalUrl.startsWith("http://")
-                && !originalUrl.startsWith("https://")) {
-            throw new IllegalArgumentException(
-                    "URL must start with http:// or https://"
-            );
+        try {
+            java.net.URI uri = java.net.URI.create(originalUrl);
+
+            if (uri.getHost() == null ||
+                    (!uri.getScheme().equals("http")
+                            && !uri.getScheme().equals("https"))) {
+
+                throw new IllegalArgumentException("Invalid URL");
+            }
+
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid URL");
         }
 
         Url url = new Url();
