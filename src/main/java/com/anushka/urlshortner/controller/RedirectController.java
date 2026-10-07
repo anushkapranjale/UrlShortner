@@ -23,9 +23,18 @@ public class RedirectController {
         Url url = urlRepository.findByShortCode(shortCode)
                 .orElseThrow(() -> new RuntimeException("Short URL not found"));
 
-        url.setClicks(url.getClicks() + 1);
-        urlRepository.save(url);
+        url.setClicks(
+                url.getClicks() == null ? 1 : url.getClicks() + 1
+        );        urlRepository.save(url);
+        String originalUrl = url.getOriginalUrl();
 
+        URI uri = URI.create(originalUrl);
+
+        if (!"http".equalsIgnoreCase(uri.getScheme())
+                && !"https".equalsIgnoreCase(uri.getScheme())) {
+
+            throw new IllegalArgumentException("Invalid redirect URL");
+        }
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(url.getOriginalUrl()));
 

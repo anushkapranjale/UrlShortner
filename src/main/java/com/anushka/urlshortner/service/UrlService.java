@@ -28,6 +28,9 @@ public class UrlService {
         if (originalUrl == null || originalUrl.isBlank()) {
             throw new IllegalArgumentException("URL cannot be empty");
         }
+        if (originalUrl.length() > 2048) {
+            throw new IllegalArgumentException("URL cannot exceed 2048 characters");
+        }
 
         try {
             java.net.URI uri = java.net.URI.create(originalUrl);
