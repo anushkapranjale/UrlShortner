@@ -17,7 +17,7 @@ public class RedirectController {
         this.urlRepository = urlRepository;
     }
 
-    @GetMapping("/{shortCode}")
+    @GetMapping("/r/{shortCode}")
     public ResponseEntity<Void> redirect(@PathVariable String shortCode) {
 
         Url url = urlRepository.findByShortCode(shortCode)

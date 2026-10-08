@@ -45,13 +45,15 @@ public class UrlService {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid URL");
         }
+        return urlRepository.findByOriginalUrl(originalUrl)
+                .orElseGet(() -> {
+                    Url url = new Url();
 
-        Url url = new Url();
+                    url.setOriginalUrl(originalUrl);
+                    url.setShortCode(generateUniqueCode());
 
-        url.setOriginalUrl(originalUrl);
-        url.setShortCode(generateUniqueCode());
-
-        return urlRepository.save(url);
+                    return urlRepository.save(url);
+                });
     }
 
     private String generateUniqueCode() {

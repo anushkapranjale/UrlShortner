@@ -25,7 +25,7 @@ public class UrlController {
         return new CreateUrlResponse(
                 savedUrl.getOriginalUrl(),
                 savedUrl.getShortCode(),
-                "http://localhost:8080/" + savedUrl.getShortCode()
+                "http://localhost:8080/r/" + savedUrl.getShortCode()
         );
     }
 
